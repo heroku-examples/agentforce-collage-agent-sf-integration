@@ -73,10 +73,6 @@
             <version>2.6.0</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.force.api</groupId>
             <artifactId>force-partner-api</artifactId>
             <version>62.0.0</version>

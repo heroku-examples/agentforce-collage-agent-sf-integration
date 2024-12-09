@@ -31,7 +31,7 @@ public class CollageService {
 
     @Operation(
             summary = "Generate a collage",
-            description = "Generates a collage based on the provided quote and image URLs and returns the download URL.",
+            description = "Generates a collage based on the provided quote and contact ID.",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -67,8 +67,6 @@ public class CollageService {
 
         try {
             // Query org for guests experiences and related image URLs
-            // ..
-            // Extract the experience image URLs passed in
             String experienceImageURLs = "https://s3-us-west-2.amazonaws.com/dev-or-devrl-s3-bucket/sample-apps/coral-clouds/sjahfb9mmbzzyogf87fk.jpg,https://s3-us-west-2.amazonaws.com/dev-or-devrl-s3-bucket/sample-apps/coral-clouds/mukt3fxxtxz6fgzltiv9.png,https://s3-us-west-2.amazonaws.com/dev-or-devrl-s3-bucket/sample-apps/coral-clouds/ugpauqyr6k4ykemyumuu.png";
             Set<String> urls = new HashSet<>(Arrays.asList(experienceImageURLs.split(",")));
             // Generate a unique filename for the image to download
