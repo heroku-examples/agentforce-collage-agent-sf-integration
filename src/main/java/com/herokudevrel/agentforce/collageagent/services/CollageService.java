@@ -1,5 +1,8 @@
 package com.herokudevrel.agentforce.collageagent.services;
 
+import com.sforce.soap.partner.PartnerConnection;
+import com.sforce.soap.partner.QueryResult;
+import com.sforce.ws.ConnectionException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "Collage API", description = "Generates Collages")
 @RestController
@@ -64,17 +68,28 @@ public class CollageService {
             @Schema(example = "Oh my goodness those sunsets!")
             String quote,
             HttpServletRequest httpServletRequest) {
-
         try {
-            // Query org for guests experiences and related image URLs
-            String experienceImageURLs = "https://s3-us-west-2.amazonaws.com/dev-or-devrl-s3-bucket/sample-apps/coral-clouds/sjahfb9mmbzzyogf87fk.jpg,https://s3-us-west-2.amazonaws.com/dev-or-devrl-s3-bucket/sample-apps/coral-clouds/mukt3fxxtxz6fgzltiv9.png,https://s3-us-west-2.amazonaws.com/dev-or-devrl-s3-bucket/sample-apps/coral-clouds/ugpauqyr6k4ykemyumuu.png";
-            Set<String> urls = new HashSet<>(Arrays.asList(experienceImageURLs.split(",")));
+            // Query org for booked guests experiences to retrieve related image URLs
+            PartnerConnection connection = (PartnerConnection) httpServletRequest.getAttribute("salesforcePartnerConnection");
+            String soql = String.format(
+                "SELECT Session__r.Experience__r.Picture_URL__c " +
+                        "FROM Booking__c " +
+                        "WHERE Contact__c = '%s' " +
+                        "GROUP BY Session__r.Experience__r.Picture_URL__c", contactId);
+            QueryResult queryResult = connection.query(soql);
+            Set<String> experienceImageURLs = new HashSet<>();
+            if (queryResult.getRecords() != null) {
+                experienceImageURLs = Arrays.stream(queryResult.getRecords())
+                    .map(record -> (String) record.getField("Session__r.Experience__r.Picture_URL__c"))
+                    .filter(url -> url != null && !url.isEmpty()) // Filter out null or empty URLs
+                    .collect(Collectors.toSet());
+            }
             // Generate a unique filename for the image to download
             String guid = UUID.randomUUID().toString();
             String fileName = guid + ".png";
             // Generate a simple collage of the experiences and store it in the S3 bucket for later download
             BufferedImage collage = createCollage(
-                    urls, 10, 20, 500, 20, 20,
+                    experienceImageURLs, 10, 20, 500, 20, 20,
                     "Each day you made new discoveries and enriched your soul", quote);
             storageService.save(collage, "png", fileName);
             logger.info("Collage saved as: {}", fileName);
@@ -85,6 +100,9 @@ public class CollageService {
                     guid);
         } catch (IOException e) {
             logger.error("Failed to create collage: {}", e.getMessage());
+            return "error:" + e.getMessage();
+        } catch (ConnectionException e) {
+            logger.error("Failed to query org: {}", e.getMessage());
             return "error:" + e.getMessage();
         }
     }
