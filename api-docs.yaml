@@ -1,0 +1,72 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: Collage API
+  description: Generates Collages
+- name: Collage API
+  description: Downloads Collages
+paths:
+  /api/generate:
+    post:
+      tags:
+      - Collage API
+      summary: Generate a collage
+      description: Generates a collage based on the provided quote and contact ID.
+      operationId: generate
+      parameters:
+      - name: contactId
+        in: query
+        required: true
+        schema:
+          type: string
+          example: Guest contact ID
+        example: Guest contact ID
+      - name: quote
+        in: query
+        required: true
+        schema:
+          type: string
+          example: Oh my goodness those sunsets!
+        example: Oh my goodness those sunsets!
+      responses:
+        "200":
+          description: Download URL for the generated collage
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: https://coralcloud-collage-action.herokuapp.com/download/d938eba6-100b-426a-adf2-c9bec87412b0.png
+        "400":
+          description: Invalid input data
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: error:No valid images were loaded.
+  /download/{id}:
+    get:
+      tags:
+      - Collage API
+      summary: Download a collage
+      description: Downloads a collage created with the /api/generate operation.
+      operationId: downloadFile
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+components: {}
