@@ -72,15 +72,16 @@ public class CollageService {
             // Query org for booked guests experiences to retrieve related image URLs
             PartnerConnection connection = (PartnerConnection) httpServletRequest.getAttribute("salesforcePartnerConnection");
             String soql = String.format(
-                "SELECT Session__r.Experience__r.Picture_URL__c " +
+                "SELECT Session__r.Experience__r.Picture_URL__c PictureURL " +
                         "FROM Booking__c " +
                         "WHERE Contact__c = '%s' " +
                         "GROUP BY Session__r.Experience__r.Picture_URL__c", contactId);
             QueryResult queryResult = connection.query(soql);
             Set<String> experienceImageURLs = new HashSet<>();
             if (queryResult.getRecords() != null) {
-                experienceImageURLs = Arrays.stream(queryResult.getRecords())
-                    .map(record -> (String) record.getField("Session__r.Experience__r.Picture_URL__c"))
+                logger.info("Records retrieve {}", queryResult.getRecords().length);
+                experienceImageURLs = java.util.Arrays.stream(queryResult.getRecords())
+                    .map(record -> (String) record.getField("PictureURL")) // Access using alias
                     .filter(url -> url != null && !url.isEmpty()) // Filter out null or empty URLs
                     .collect(Collectors.toSet());
             }
