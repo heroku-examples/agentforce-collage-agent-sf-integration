@@ -79,7 +79,6 @@ public class CollageService {
             QueryResult queryResult = connection.query(soql);
             Set<String> experienceImageURLs = new HashSet<>();
             if (queryResult.getRecords() != null) {
-                logger.info("Records retrieve {}", queryResult.getRecords().length);
                 experienceImageURLs = java.util.Arrays.stream(queryResult.getRecords())
                     .map(record -> (String) record.getField("PictureURL")) // Access using alias
                     .filter(url -> url != null && !url.isEmpty()) // Filter out null or empty URLs
@@ -95,9 +94,12 @@ public class CollageService {
             storageService.save(collage, "png", fileName);
             logger.info("Collage saved as: {}", fileName);
             // Calculate the fully qualified URL to return to the client to allow it to download the image
-            return String.format("%s://%s/download/%s.png",
-                    httpServletRequest.getScheme(),
-                    httpServletRequest.getServerName(),
+            return String.format(
+                    // TODO: Hack with another app using the same AWS creds, since the service mesh currently blocks all URLs without correct auth
+                    "https://coralcloud-collage-action-b6c544270bc6.herokuapp.com/download/%s.png",
+                    // "%s://%s/download/%s.png",
+                    // httpServletRequest.getScheme(),
+                    // httpServletRequest.getServerName(),
                     guid);
         } catch (IOException e) {
             logger.error("Failed to create collage: {}", e.getMessage());
