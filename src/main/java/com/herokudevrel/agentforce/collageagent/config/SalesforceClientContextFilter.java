@@ -67,7 +67,7 @@ public class SalesforceClientContextFilter extends OncePerRequestFilter {
         ConnectorConfig config = new ConnectorConfig();
         config.setUsername(username);
         config.setSessionId(accessToken);
-        config.setAuthEndpoint(orgDomainUrl + "/services/Soap/u/" + apiVersion);
+        config.setServiceEndpoint(orgDomainUrl + "/services/Soap/u/" + apiVersion);
         return new PartnerConnection(config);
     }
 }
