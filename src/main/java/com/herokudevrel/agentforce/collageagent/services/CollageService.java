@@ -40,32 +40,23 @@ public class CollageService {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Download URL for the generated collage",
-                            content = @Content(
-                                    mediaType = "text/plain",
-                                    schema = @Schema(
-                                            example = "https://coralcloud-collage-action.herokuapp.com/download/d938eba6-100b-426a-adf2-c9bec87412b0.png"
-                                    )
-                            )
+                            content = @Content(mediaType = "text/plain",
+                                    schema = @Schema(example = "https://coralcloud-collage-action.herokuapp.com/download/d938eba6-100b-426a-adf2-c9bec87412b0.png"))
                     ),
                     @ApiResponse(
                             responseCode = "400",
                             description = "Invalid input data",
-                            content = @Content(
-                                    mediaType = "text/plain",
-                                    schema = @Schema(
-                                            example = "error:No valid images were loaded."
-                                    )
-                            )
+                            content = @Content(mediaType = "text/plain", schema = @Schema(example = "error:No valid images were loaded."))
                     )
             }
     )
     @PostMapping("/generate")
     public String generate(
             @RequestParam
-            @Schema(example = "Guest contact ID")
+            @Schema(example = "Guest contact ID", description = "A record Id for the contact related to the experience booking records")
             String contactId,
             @RequestParam
-            @Schema(example = "Oh my goodness those sunsets!")
+            @Schema(example = "Oh my goodness those sunsets!", description = "A personalized message to display on the collage relating to what the user most enjoyed about their stay at the resort.")
             String quote,
             HttpServletRequest httpServletRequest) {
         try {
