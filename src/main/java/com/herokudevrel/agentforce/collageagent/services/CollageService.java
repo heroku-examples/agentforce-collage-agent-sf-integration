@@ -35,7 +35,7 @@ public class CollageService {
 
     @Operation(
             summary = "Generate a collage",
-            description = "Generates a collage based on the provided quote and contact ID.",
+            description = "This action generates a collage based the experiences guests have booked. You must use the QueryRecords action to fetch the contact record by name and ask the user for a quote before executing the action.",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
