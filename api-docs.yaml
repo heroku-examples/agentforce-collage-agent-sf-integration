@@ -3,36 +3,46 @@ info:
   title: OpenAPI definition
   version: v0
 servers:
-- url: http://localhost:8080
-  description: Generated server url
+  - url: http://localhost:8080
+    description: Generated server url
 tags:
-- name: Collage API
-  description: Generates Collages
-- name: Collage API
-  description: Downloads Collages
+  - name: Collage API
+    description: Generates Collages
+  - name: Collage API
+    description: Downloads Collages
 paths:
   /api/generate:
     post:
       tags:
-      - Collage API
+        - Collage API
       summary: Generate a collage
-      description: Generates a collage based on the provided quote and contact ID.
+      description: This action generates a collage based the experiences guests have
+        booked. You must use the QueryRecords action to fetch the contact record by
+        name and ask the user for a quote before executing the action.
       operationId: generate
       parameters:
-      - name: contactId
-        in: query
-        required: true
-        schema:
-          type: string
+        - name: contactId
+          in: query
+          description: A record Id for the contact related to the experience booking
+            records
+          required: true
+          schema:
+            type: string
+            description: A record Id for the contact related to the experience booking
+              records
+            example: Guest contact ID
           example: Guest contact ID
-        example: Guest contact ID
-      - name: quote
-        in: query
-        required: true
-        schema:
-          type: string
+        - name: quote
+          in: query
+          description: A personalized message to display on the collage relating to
+            what the user most enjoyed about their stay at the resort.
+          required: true
+          schema:
+            type: string
+            description: A personalized message to display on the collage relating to
+              what the user most enjoyed about their stay at the resort.
+            example: Oh my goodness those sunsets!
           example: Oh my goodness those sunsets!
-        example: Oh my goodness those sunsets!
       responses:
         "200":
           description: Download URL for the generated collage
@@ -51,16 +61,16 @@ paths:
   /download/{id}:
     get:
       tags:
-      - Collage API
+        - Collage API
       summary: Download a collage
       description: Downloads a collage created with the /api/generate operation.
       operationId: downloadFile
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: OK
