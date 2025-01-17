@@ -1,0 +1,12 @@
+{
+  "packageDirectories": [
+    {
+      "path": "src-salesforce",
+      "default": true
+    }
+  ],
+  "name": "agentforce-collage-agent-sf-integration",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "62.0"
+}

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>GenerateCollage</name>
+        <label>Generate Collage</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <actionName>GenerateCollage.generate</actionName>
+        <actionType>externalService</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>contactId</name>
+            <value>
+                <elementReference>contactId</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>quote</name>
+            <value>
+                <elementReference>quote</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>GenerateCollage.generate</nameSegment>
+        <offset>0</offset>
+        <outputParameters>
+            <assignToReference>downloadUrl</assignToReference>
+            <name>200</name>
+        </outputParameters>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <description>This action generates a collage based the experiences they have booked. You must use the QueryRecords action to fetch the contact record by asking the user for their name and then asking the user for a quote before executing the action.</description>
+    <environments>Default</environments>
+    <interviewLabel>Generate Collage {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Generate Collage</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>GenerateCollage</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>A record Id for the contact related to the experience booking records</description>
+        <name>contactId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>A URL for the user to download the collage image.</description>
+        <name>downloadUrl</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>A personalized message to display on the collage relating to what the user most enjoyed about their stay at the resort.</description>
+        <name>quote</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
