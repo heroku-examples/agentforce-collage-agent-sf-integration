@@ -161,6 +161,7 @@ Use the following commands to deploy and import this application:
    6. Go to **This Topic's Actions** tab.
    7. Select New and from the dropdown list choose Add from Asset Library.
    8. Check the **Generate Collage** action and click **Finish**.
+   9. Confirm the **Generate Collage** action is in the list of actions.
 
 3. Testing the Agent Action
 
