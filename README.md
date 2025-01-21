@@ -164,13 +164,15 @@ Use the following commands to deploy and import this application:
 
 3. Testing the Agent Action
 
-    1. In the **Conversation Preview** panel, enter the following prompt:
+    1. Refresh the **Conversation Preview** panel click in the top right **Refresh** icon
+
+    2. In the **Conversation Preview** panel, enter the following prompt:
 
        ```txr
        Can I have a collage of my experience?
        ```
 
-    2. The agent will request the contact name and a quote, enter the following using the contact name you noted earlier:
+    3. The agent will request the contact name and a quote, enter the following using the contact name you noted earlier:
    
        ```txt
        My name is [Contact Name] and I loved coding on the beach!
